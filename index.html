@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Dancing Eyes — Namco System 11 Arcade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
+
+    body {
+      background: #0f0e17;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      font-family: 'Press Start 2P', monospace;
+      padding: 20px 10px 30px;
+      overflow-x: hidden;
+    }
+
+    .cabinet {
+      background: #1e1c2a;
+      border: 3px solid #3a3848;
+      box-shadow: 4px 4px 0 #0a0814;
+      padding: 18px 18px 20px;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .system-label {
+      color: #8878d0;
+      font-size: 0.42rem;
+      text-align: center;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+
+    .game-title {
+      color: #e8e0f8;
+      font-size: 1rem;
+      text-align: center;
+      text-shadow: 3px 3px 0 #4a3888;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+
+    /* LED row */
+    .led-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .led {
+      width: 8px;
+      height: 8px;
+      background: #cc2222;
+      border-radius: 0;
+      box-shadow: 0 0 4px #ff3333;
+      animation: blink 1.8s infinite;
+    }
+    .led:nth-child(2) { animation-delay: 0.6s; }
+    .led:nth-child(3) { animation-delay: 1.2s; }
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 1; }
+      40% { opacity: 0.2; }
+    }
+
+    /* Screen */
+    .screen-bezel {
+      background: #0a0814;
+      border: 3px solid #1a1828;
+      box-shadow: inset 2px 2px 0 #050510, 3px 3px 0 #0a0814;
+      padding: 6px;
+      position: relative;
+    }
+
+    .screen-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #000;
+      overflow: hidden;
+    }
+
+    /* Scanlines overlay */
+    .screen-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.05) 3px,
+        rgba(0,0,0,0.05) 4px
+      );
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    #game {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Controls hint */
+    .controls-bar {
+      background: #16142a;
+      border: 2px solid #2a2838;
+      box-shadow: 2px 2px 0 #0a0814;
+      margin-top: 14px;
+      padding: 10px 12px;
+    }
+
+    .controls-title {
+      color: #6858b8;
+      font-size: 0.32rem;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .key {
+      background: #3c3a44;
+      border: 2px solid #5a5868;
+      box-shadow: 2px 2px 0 #1a1828;
+      color: #e8e0f8;
+      font-size: 0.28rem;
+      padding: 3px 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .key-label {
+      color: #9898b8;
+      font-size: 0.26rem;
+      line-height: 1.4;
+    }
+
+    .controls-note {
+      color: #5a5878;
+      font-size: 0.24rem;
+      text-align: center;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cabinet">
+    <div class="system-label">NAMCO SYSTEM 11 — ARCADE 1996</div>
+    <div class="game-title">Dancing Eyes</div>
+
+    <div class="led-row">
+      <div class="led"></div>
+      <div class="led"></div>
+      <div class="led"></div>
+    </div>
+
+    <div class="screen-bezel">
+      <div class="screen-inner">
+        <div id="game"></div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div class="controls-title">— CONTROLS —</div>
+      <div class="controls-grid">
+        <div class="control-row">
+          <span class="key">5</span>
+          <span class="key-label">Insert Coin</span>
+        </div>
+        <div class="control-row">
+          <span class="key">1</span>
+          <span class="key-label">Player 1 Start</span>
+        </div>
+        <div class="control-row">
+          <span class="key">↑↓←→</span>
+          <span class="key-label">Move</span>
+        </div>
+        <div class="control-row">
+          <span class="key">Z</span>
+          <span class="key">X</span>
+          <span class="key-label">Buttons</span>
+        </div>
+      </div>
+      <div class="controls-note">TAB = MAME menu &nbsp;|&nbsp; F3 = Reset &nbsp;|&nbsp; P = Pause</div>
+    </div>
+  </div>
+
+  <script>
+    EJS_player = '#game';
+    EJS_gameUrl = 'danceyes.zip';
+    EJS_core = 'mame';
+    EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+    EJS_AdditionalFiles = [
+      { url: 'namcoc76.zip', fileName: 'namcoc76.zip' }
+    ];
+    EJS_Buttons = {
+      mute: true,
+      settings: true,
+      fullscreen: true
+    };
+    EJS_color = '#6858b8';
+  </script>
+  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+
+</body>
+</html>
