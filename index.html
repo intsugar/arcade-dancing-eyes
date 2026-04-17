@@ -10,71 +10,60 @@
     * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
 
     body {
-      background: #0f0e17;
+      background: #0a0a0f;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       min-height: 100vh;
       font-family: 'Press Start 2P', monospace;
-      padding: 20px 10px 30px;
-      overflow-x: hidden;
+      padding: 14px 8px 30px;
     }
 
+    /* ── Cabinet shell ── */
     .cabinet {
-      background: #1e1c2a;
-      border: 3px solid #3a3848;
-      box-shadow: 4px 4px 0 #0a0814;
-      padding: 18px 18px 20px;
       width: 100%;
-      max-width: 700px;
+      max-width: 660px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ── Header ── */
+    .cab-header {
+      background: #111118;
+      border: 2px solid #2a2838;
+      border-bottom: none;
+      padding: 10px 14px 8px;
+      text-align: center;
     }
 
     .system-label {
-      color: #8878d0;
-      font-size: 0.42rem;
-      text-align: center;
+      color: #5548a0;
+      font-size: 0.38rem;
       letter-spacing: 3px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .game-title {
-      color: #e8e0f8;
-      font-size: 1rem;
-      text-align: center;
-      text-shadow: 3px 3px 0 #4a3888;
-      margin-bottom: 14px;
-      letter-spacing: 1px;
+      color: #f0e8ff;
+      font-size: 1.1rem;
+      text-shadow: 3px 3px 0 #3a2888;
+      letter-spacing: 2px;
     }
 
-    /* LED row */
-    .led-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .led {
-      width: 8px;
-      height: 8px;
-      background: #cc2222;
-      border-radius: 0;
-      box-shadow: 0 0 4px #ff3333;
-      animation: blink 1.8s infinite;
-    }
-    .led:nth-child(2) { animation-delay: 0.6s; }
-    .led:nth-child(3) { animation-delay: 1.2s; }
-    @keyframes blink {
-      0%, 80%, 100% { opacity: 1; }
-      40% { opacity: 0.2; }
+    /* ── Screen ── */
+    .screen-section {
+      background: #0a0a12;
+      border-left: 2px solid #2a2838;
+      border-right: 2px solid #2a2838;
+      padding: 8px;
+      position: relative;
     }
 
-    /* Screen */
     .screen-bezel {
-      background: #0a0814;
-      border: 3px solid #1a1828;
-      box-shadow: inset 2px 2px 0 #050510, 3px 3px 0 #0a0814;
-      padding: 6px;
+      background: #050510;
+      border: 3px solid #1c1a2c;
+      box-shadow: inset 0 0 0 2px #080814;
       position: relative;
     }
 
@@ -86,17 +75,15 @@
       overflow: hidden;
     }
 
-    /* Scanlines overlay */
+    /* scanlines */
     .screen-inner::after {
       content: '';
       position: absolute;
       inset: 0;
       background: repeating-linear-gradient(
         to bottom,
-        transparent 0px,
-        transparent 3px,
-        rgba(0,0,0,0.05) 3px,
-        rgba(0,0,0,0.05) 4px
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
       );
       pointer-events: none;
       z-index: 10;
@@ -109,120 +96,367 @@
       height: 100%;
     }
 
-    /* Controls hint */
-    .controls-bar {
-      background: #16142a;
+    /* Kill EmulatorJS's own mobile overlay */
+    #game canvas { display: block; }
+
+    /* ── Control panel ── */
+    .control-panel {
+      background: #161420;
       border: 2px solid #2a2838;
-      box-shadow: 2px 2px 0 #0a0814;
-      margin-top: 14px;
-      padding: 10px 12px;
-    }
-
-    .controls-title {
-      color: #6858b8;
-      font-size: 0.32rem;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px 16px;
-    }
-
-    .control-row {
+      border-top: 3px solid #3a3050;
+      padding: 16px 20px 18px;
       display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* COIN + START row */
+    .service-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .svc-btn {
+      background: #1e1c2c;
+      border: 2px solid #3a3848;
+      box-shadow: 3px 3px 0 #0a0814;
+      color: #9898c0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.3rem;
+      letter-spacing: 1px;
+      padding: 7px 14px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: none;
+    }
+
+    .svc-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+      color: #e0d8ff;
+    }
+
+    /* Joystick + buttons row */
+    .play-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    /* ── Joystick ── */
+    .joystick-wrap {
+      display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 6px;
     }
 
-    .key {
-      background: #3c3a44;
-      border: 2px solid #5a5868;
-      box-shadow: 2px 2px 0 #1a1828;
-      color: #e8e0f8;
-      font-size: 0.28rem;
-      padding: 3px 5px;
-      white-space: nowrap;
-      flex-shrink: 0;
+    .joystick-base {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #2e2c3e, #141220);
+      border: 3px solid #3a3848;
+      box-shadow: 3px 3px 0 #0a0814, inset 0 2px 4px rgba(0,0,0,0.5);
+      position: relative;
+      touch-action: none;
     }
 
-    .key-label {
-      color: #9898b8;
+    .joystick-stick {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #4a4860, #1c1a28);
+      border: 2px solid #5a5870;
+      transform: translate(-50%, -50%);
+      box-shadow: 2px 2px 0 #0a0814;
+      transition: transform 0.08s;
+      pointer-events: none;
+    }
+
+    .joystick-label {
+      color: #4a4868;
       font-size: 0.26rem;
-      line-height: 1.4;
+      letter-spacing: 1px;
     }
 
-    .controls-note {
-      color: #5a5878;
+    /* ── Action buttons ── */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .action-btn-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-btn {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: 3px solid;
+      box-shadow: 4px 4px 0;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      position: relative;
+    }
+
+    .action-btn::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      width: 18px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transform: rotate(-30deg);
+      pointer-events: none;
+    }
+
+    .action-btn:active,
+    .action-btn.pressed {
+      transform: translate(4px, 4px);
+      box-shadow: none !important;
+    }
+
+    .btn-1 {
+      background: radial-gradient(circle at 40% 35%, #cc3333, #881111);
+      border-color: #aa2222;
+      box-shadow: 4px 4px 0 #441111;
+    }
+
+    .btn-2 {
+      background: radial-gradient(circle at 40% 35%, #3355cc, #112288);
+      border-color: #2244aa;
+      box-shadow: 4px 4px 0 #111144;
+    }
+
+    .action-label {
+      color: #4a4868;
+      font-size: 0.26rem;
+      letter-spacing: 1px;
+    }
+
+    /* keyboard hint strip */
+    .key-hint {
+      color: #2e2c40;
       font-size: 0.24rem;
       text-align: center;
-      margin-top: 8px;
-      line-height: 1.6;
+      letter-spacing: 1px;
+      line-height: 1.8;
     }
   </style>
 </head>
 <body>
 
-  <div class="cabinet">
+<div class="cabinet">
+
+  <div class="cab-header">
     <div class="system-label">NAMCO SYSTEM 11 — ARCADE 1996</div>
     <div class="game-title">Dancing Eyes</div>
+  </div>
 
-    <div class="led-row">
-      <div class="led"></div>
-      <div class="led"></div>
-      <div class="led"></div>
-    </div>
-
+  <div class="screen-section">
     <div class="screen-bezel">
       <div class="screen-inner">
         <div id="game"></div>
       </div>
     </div>
-
-    <div class="controls-bar">
-      <div class="controls-title">— CONTROLS —</div>
-      <div class="controls-grid">
-        <div class="control-row">
-          <span class="key">5</span>
-          <span class="key-label">Insert Coin</span>
-        </div>
-        <div class="control-row">
-          <span class="key">1</span>
-          <span class="key-label">Player 1 Start</span>
-        </div>
-        <div class="control-row">
-          <span class="key">↑↓←→</span>
-          <span class="key-label">Move</span>
-        </div>
-        <div class="control-row">
-          <span class="key">Z</span>
-          <span class="key">X</span>
-          <span class="key-label">Buttons</span>
-        </div>
-      </div>
-      <div class="controls-note">TAB = MAME menu &nbsp;|&nbsp; F3 = Reset &nbsp;|&nbsp; P = Pause</div>
-    </div>
   </div>
 
-  <script>
-    EJS_player = '#game';
-    EJS_gameUrl = 'danceyes.zip';
-    EJS_core = 'mame';
-    EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
-    EJS_AdditionalFiles = [
-      { url: 'namcoc76.zip', fileName: 'namcoc76.zip' }
-    ];
-    EJS_Buttons = {
-      mute: true,
-      settings: true,
-      fullscreen: true
-    };
-    EJS_color = '#6858b8';
-  </script>
-  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+  <div class="control-panel">
 
+    <!-- COIN / START -->
+    <div class="service-row">
+      <button class="svc-btn" id="btn-coin">INSERT COIN</button>
+      <button class="svc-btn" id="btn-start">PLAYER START</button>
+    </div>
+
+    <!-- Joystick + Action buttons -->
+    <div class="play-row">
+
+      <div class="joystick-wrap">
+        <div class="joystick-base" id="joystick">
+          <div class="joystick-stick" id="stick"></div>
+        </div>
+        <div class="joystick-label">JOYSTICK</div>
+      </div>
+
+      <div class="action-buttons">
+        <div class="action-row">
+          <div class="action-btn-wrap">
+            <div class="action-btn btn-1" id="btn-action1"></div>
+            <div class="action-label">BTN 1</div>
+          </div>
+          <div class="action-btn-wrap">
+            <div class="action-btn btn-2" id="btn-action2"></div>
+            <div class="action-label">BTN 2</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="key-hint">
+      KEYBOARD: 5=COIN &nbsp; 1=START &nbsp; ARROWS=MOVE &nbsp; Z X=BUTTONS
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── EmulatorJS setup ──
+  EJS_player = '#game';
+  EJS_gameUrl = 'danceyes.zip';
+  EJS_core = 'mame';
+  EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+  EJS_AdditionalFiles = [
+    { url: 'namcoc76.zip', fileName: 'namcoc76.zip' }
+  ];
+  EJS_color = '#5548a0';
+  EJS_Buttons = { mute: false, settings: true, fullscreen: true };
+  EJS_mobileInputMode = 'none';
+</script>
+<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+
+<script>
+  // ── Hide EmulatorJS's built-in mobile overlay ──
+  const killPad = () => {
+    document.querySelectorAll(
+      '[class*="virtualpad"],[class*="mobile_btn"],[class*="ejs_mobile"],[id*="ejs_virtual"],[class*="ejs_virtual"]'
+    ).forEach(el => { el.style.display = 'none'; el.style.pointerEvents = 'none'; });
+  };
+  new MutationObserver(killPad).observe(document.body, { childList: true, subtree: true });
+
+  // ── Key dispatch helpers ──
+  function press(code, key) {
+    document.dispatchEvent(new KeyboardEvent('keydown', { code, key, bubbles: true }));
+  }
+  function release(code, key) {
+    document.dispatchEvent(new KeyboardEvent('keyup', { code, key, bubbles: true }));
+  }
+
+  // ── Service buttons ──
+  document.getElementById('btn-coin').addEventListener('pointerdown', e => {
+    e.preventDefault(); press('Digit5', '5');
+  });
+  document.getElementById('btn-coin').addEventListener('pointerup', e => {
+    e.preventDefault(); release('Digit5', '5');
+  });
+  document.getElementById('btn-start').addEventListener('pointerdown', e => {
+    e.preventDefault(); press('Digit1', '1');
+  });
+  document.getElementById('btn-start').addEventListener('pointerup', e => {
+    e.preventDefault(); release('Digit1', '1');
+  });
+
+  // ── Action buttons ──
+  const actionMap = {
+    'btn-action1': { code: 'KeyZ', key: 'z' },
+    'btn-action2': { code: 'KeyX', key: 'x' }
+  };
+  Object.entries(actionMap).forEach(([id, { code, key }]) => {
+    const el = document.getElementById(id);
+    el.addEventListener('pointerdown', e => { e.preventDefault(); el.classList.add('pressed'); press(code, key); });
+    el.addEventListener('pointerup',   e => { e.preventDefault(); el.classList.remove('pressed'); release(code, key); });
+    el.addEventListener('pointercancel', e => { el.classList.remove('pressed'); release(code, key); });
+  });
+
+  // ── Joystick ──
+  const joystickBase = document.getElementById('joystick');
+  const stick = document.getElementById('stick');
+  const DEAD = 14;
+  const MAX_OFFSET = 30;
+  let activeDirections = new Set();
+  let joyActive = false;
+  let joyOrigin = { x: 0, y: 0 };
+  let joyId = null;
+
+  const DIR_MAP = {
+    up:    { code: 'ArrowUp',    key: 'ArrowUp' },
+    down:  { code: 'ArrowDown',  key: 'ArrowDown' },
+    left:  { code: 'ArrowLeft',  key: 'ArrowLeft' },
+    right: { code: 'ArrowRight', key: 'ArrowRight' }
+  };
+
+  function setDirs(newDirs) {
+    activeDirections.forEach(d => { if (!newDirs.has(d)) { release(DIR_MAP[d].code, DIR_MAP[d].key); } });
+    newDirs.forEach(d => { if (!activeDirections.has(d)) { press(DIR_MAP[d].code, DIR_MAP[d].key); } });
+    activeDirections = newDirs;
+  }
+
+  function getDirs(dx, dy) {
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < DEAD) return new Set();
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+    const dirs = new Set();
+    if (angle > -135 && angle < -45)  dirs.add('up');
+    if (angle > 45  && angle < 135)   dirs.add('down');
+    if (Math.abs(angle) > 135)        dirs.add('left');
+    if (Math.abs(angle) < 45)         dirs.add('right');
+    // diagonals
+    if (angle > -135 && angle < -45) {} // already up
+    if (angle > -70 && angle < -20)  { dirs.add('up'); dirs.add('right'); }
+    if (angle > 20  && angle < 70)   { dirs.add('down'); dirs.add('right'); }
+    if (angle > 110 || angle < -110) { dirs.add('left'); }
+    if (angle > -160 && angle < -110){ dirs.add('left'); dirs.add('up'); }
+    if (angle > 110 && angle < 160)  { dirs.add('left'); dirs.add('down'); }
+    return dirs;
+  }
+
+  function moveStick(dx, dy) {
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const capped = Math.min(dist, MAX_OFFSET);
+    const ratio = dist > 0 ? capped / dist : 0;
+    stick.style.transform = `translate(calc(-50% + ${dx * ratio}px), calc(-50% + ${dy * ratio}px))`;
+  }
+
+  joystickBase.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    joyActive = true;
+    joyId = e.pointerId;
+    const r = joystickBase.getBoundingClientRect();
+    joyOrigin = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    joystickBase.setPointerCapture(e.pointerId);
+  });
+
+  joystickBase.addEventListener('pointermove', e => {
+    if (!joyActive || e.pointerId !== joyId) return;
+    e.preventDefault();
+    const dx = e.clientX - joyOrigin.x;
+    const dy = e.clientY - joyOrigin.y;
+    moveStick(dx, dy);
+    setDirs(getDirs(dx, dy));
+  });
+
+  function joyEnd(e) {
+    if (e.pointerId !== joyId) return;
+    joyActive = false;
+    stick.style.transform = 'translate(-50%, -50%)';
+    setDirs(new Set());
+  }
+  joystickBase.addEventListener('pointerup', joyEnd);
+  joystickBase.addEventListener('pointercancel', joyEnd);
+</script>
 </body>
 </html>
